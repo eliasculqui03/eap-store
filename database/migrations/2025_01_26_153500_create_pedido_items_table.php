@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categorias', function (Blueprint $table) {
+        Schema::create('pedido_items', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('slug')->unique();
-            $table->string('imagen')->nullable();
-            $table->boolean('estado')->default(true);
+            $table->unsignedBigInteger('pedido_id');
+            $table->unsignedBigInteger('producto_id');
+            $table->integer('cantidad')->default(1);
+            $table->decimal('precio_unitario', 10, 2)->nullable();
+            $table->decimal('subtotal', 10, 2)->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categorias');
+        Schema::dropIfExists('pedido_items');
     }
 };
