@@ -4,6 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PedidoResource\Pages;
 use App\Filament\Resources\PedidoResource\RelationManagers;
+use App\Filament\Resources\PedidoResource\RelationManagers\DireccionRelationManager;
+
 use App\Models\Pedido;
 use App\Models\Producto;
 
@@ -124,7 +126,7 @@ class PedidoResource extends Resource
                                             ->columnSpan(4)
                                             ->reactive()
                                             ->afterStateUpdated(fn($state, Set $set) => $set('precio_unitario', Producto::find($state)?->precio ?? 0))
-                                            ->afterStateUpdated(fn($state, Set $set) => $set('sub_total', Producto::find($state)?->precio ?? 0)),
+                                            ->afterStateUpdated(fn($state, Set $set) => $set('subtotal', Producto::find($state)?->precio ?? 0)),
                                         TextInput::make('cantidad')
                                             ->numeric()
                                             ->required()
@@ -132,7 +134,8 @@ class PedidoResource extends Resource
                                             ->minValue(1)
                                             ->columnSpan(2)
                                             ->reactive()
-                                            ->afterStateUpdated(fn($state, Set $set, Get $get) => $set('sub_total', $state * $get('precio_unitario'))),
+                                            //->live(onBlur: true)
+                                            ->afterStateUpdated(fn($state, Set $set, Get $get) => $set('subtotal', $state * $get('precio_unitario'))),
                                         TextInput::make('precio_unitario')
                                             ->prefix('S/.')
                                             ->numeric()
@@ -140,8 +143,9 @@ class PedidoResource extends Resource
                                             ->disabled()
                                             ->dehydrated()
                                             ->columnSpan(3),
-                                        TextInput::make('sub_total')
+                                        TextInput::make('subtotal')
                                             ->numeric()
+                                            ->disabled()
                                             ->dehydrated()
                                             ->required()
                                             ->columnSpan(3),
@@ -149,7 +153,7 @@ class PedidoResource extends Resource
 
                                     ])->columns(12),
 
-                                Placeholder::make('total')
+                                Placeholder::make('total_pedido')
                                     ->content(function (Get $get, Set $set) {
                                         $total = 0;
                                         if (!$repeaters = $get('pedidoItems')) {
@@ -157,7 +161,7 @@ class PedidoResource extends Resource
                                         }
 
                                         foreach ($repeaters as $key => $repeater) {
-                                            $total += $get("pedidoItems.{$key}.sub_total");
+                                            $total += $get("pedidoItems.{$key}.subtotal");
                                         }
                                         $set('total', $total);
                                         return Number::currency($total, 'S/.');
@@ -208,10 +212,12 @@ class PedidoResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
+                    ->label('Fecha de creación')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
+                    ->label('Fecha de edición')
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
@@ -236,7 +242,18 @@ class PedidoResource extends Resource
     {
         return [
             //
+            DireccionRelationManager::class
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
+    public static function getNavigationBadgeColor(): string|array|null
+    {
+        return static::getModel()::count() > 10 ? 'danger' : 'success';
     }
 
     public static function getPages(): array

@@ -16,6 +16,7 @@ class Direccion extends Model
         'apellidos',
         'telefono',
         'direccion_calle',
+        'ciudad',
         'distrito',
         'provincia',
         'departamento',
@@ -27,7 +28,7 @@ class Direccion extends Model
         return $this->belongsTo(Pedido::class);
     }
 
-    public function nombreCompleto()
+    public function nombreCompleto(): String
     {
         return "{$this->nombre} {$this->apellidos}";
     }
