@@ -1,17 +1,18 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./resources/**/*.blade.php",
-    "./resources/**/*.js",
-    "./resources/**/*.vue",
-    'node_modules/preline/dist/*.js',
+    content: [
+        "./resources/**/*.blade.php",
+        "./resources/**/*.js",
+        "./resources/**/*.vue",
+        'node_modules/preline/dist/*.js',
 ],
 
-  theme: {
-    extend: {},
-  },
-  plugins: [
-    require('preline/plugin'),
-  ],
+    darkMode: 'class',
+    theme: {
+        extend: {},
+    },
+    plugins: [
+        require('preline/plugin'),
+    ],
 }
 
