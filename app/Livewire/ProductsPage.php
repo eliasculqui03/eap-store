@@ -2,9 +2,12 @@
 
 namespace App\Livewire;
 
+use App\Helpers\CartMangement;
+use App\Livewire\Partials\Navbar;
 use App\Models\Categoria;
 use App\Models\Marca;
 use App\Models\Producto;
+use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -34,6 +37,19 @@ class ProductsPage extends Component
     #[Url]
     public $precio_rango = 25000;
 
+    #[Url]
+    public $clasificar = 'ultimo';
+
+    public function agregarCarrito($producto_id)
+    {
+
+        //LivewireAlert::title('Success')->success();
+
+        $num_carrito = CartMangement::addItemToCart($producto_id);
+
+        $this->dispatch('actualizar-num-carrito', num_carrito: $num_carrito)->to(Navbar::class);
+    }
+
     public function render()
     {
 
@@ -61,7 +77,13 @@ class ProductsPage extends Component
             $productosQuery->whereBetween('precio', [0, $this->precio_rango]);
         }
 
+        if ($this->clasificar == 'ultimo') {
+            $productosQuery->latest();
+        }
 
+        if ($this->clasificar == 'precio') {
+            $productosQuery->orderBy('precio');
+        }
         return view(
             'livewire.products-page',
             [
