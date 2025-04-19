@@ -74,7 +74,7 @@
 
                                 </div>
                                 <div class="relative">
-                                    <input type="contrasenia" id="contrasenia" wire:model="contrasenia"
+                                    <input type="password" id="contrasenia" wire:model="contrasenia"
                                         class="block w-full px-4 py-3 text-sm border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
                                         aria-describedby="password-error">
                                     @error('contrasenia')
@@ -95,8 +95,7 @@
 
 
                             <button type="submit"
-                                class="inline-flex items-center justify-center w-full px-4 py-3 text-sm font-semibold text-white bg-blue-600 border border-transparent rounded-lg gap-x-2 hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">Sign
-                                up</button>
+                                class="inline-flex items-center justify-center w-full px-4 py-3 text-sm font-semibold text-white bg-blue-600 border border-transparent rounded-lg gap-x-2 hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">Inscribirse</button>
                         </div>
                     </form>
                     <!-- End Form -->

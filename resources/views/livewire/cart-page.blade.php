@@ -104,7 +104,7 @@
             </div>
             <div class="md:w-1/4">
                 <div class="p-6 bg-white rounded-lg shadow-md">
-                    <h2 class="mb-4 text-lg font-semibold">Summary</h2>
+                    <h2 class="mb-4 text-lg font-semibold">Resumen</h2>
                     <div class="flex justify-between mb-2">
                         <span>Subtotal</span>
                         <span>S/. {{ number_format($this->total_general, 2) }}</span>
@@ -124,7 +124,8 @@
                     </div>
 
                     @if ($carrito_items)
-                        <button class="w-full px-4 py-2 mt-4 text-white bg-blue-500 rounded-lg">Checkout</button>
+                        <a href="{{ route('checkout') }}"
+                            class="block w-full px-4 py-2 mt-4 text-center text-white bg-blue-500 rounded-lg">Verificar</a>
                     @endif
                 </div>
             </div>
