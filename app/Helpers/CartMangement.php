@@ -49,6 +49,52 @@ class CartMangement
         return count($cart_items);
     }
 
+
+
+    //agregar item al carrito
+    static public function addItemToCartWithQuantity($product_id, $quantity = 1)
+    {
+        $cart_items = self::getCartItemsFromCookie();
+
+        $existing_item = null;
+
+        foreach ($cart_items as $key => $item) {
+
+
+            if ($item['product_id'] == $product_id) {
+                $existing_item = $key;
+                break;
+            }
+        }
+
+        if ($existing_item !== null) {
+            $cart_items[$existing_item]['quantity'] = $quantity;
+            $cart_items[$existing_item]['total_amount'] = $cart_items[$existing_item]['quantity'] * $cart_items[$existing_item]['unit_amount'];
+        } else {
+
+            $product = Producto::where('id', $product_id)->first(['id', 'nombre', 'precio', 'images']);
+
+            if ($product) {
+                $cart_items[] = [
+                    'product_id' => $product_id,
+                    'name' => $product->nombre,
+                    'unit_amount' => $product->precio,
+                    'quantity' => $quantity,
+                    'image' => $product->images[0],
+                    'total_amount' => $product->precio,
+                ];
+            }
+        }
+
+        self::addCartItemsToCookie($cart_items);
+
+
+        return count($cart_items);
+    }
+
+
+
+
     // remove item del carrito
 
     static public function removeCartItem($product_id)
@@ -65,7 +111,7 @@ class CartMangement
 
         self::addCartItemsToCookie($cart_items);
 
-        return count($cart_items);
+        return $cart_items;
     }
 
     //agregar los items del carrito a las cookies
@@ -131,7 +177,7 @@ class CartMangement
 
         self::addCartItemsToCookie($cart_items);
 
-        return count($cart_items);
+        return $cart_items;
     }
 
 

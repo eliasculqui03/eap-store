@@ -43,11 +43,13 @@ class ProductsPage extends Component
     public function agregarCarrito($producto_id)
     {
 
-        //LivewireAlert::title('Success')->success();
+
 
         $num_carrito = CartMangement::addItemToCart($producto_id);
 
         $this->dispatch('actualizar-num-carrito', num_carrito: $num_carrito)->to(Navbar::class);
+
+        LivewireAlert::title('Success')->success();
     }
 
     public function render()

@@ -114,7 +114,7 @@
                                         </div>
                                         <p class="text-lg ">
                                             <span class="text-green-600 dark:text-green-600">S/.
-                                                {{ $producto->precio }}</span>
+                                                {{ number_format($producto->precio, 2) }}</span>
                                         </p>
                                     </div>
 
