@@ -25,24 +25,80 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="odd:bg-white even:bg-gray-100 dark:odd:bg-slate-900 dark:even:bg-slate-800">
-                                <td
-                                    class="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-gray-200">
-                                    20</td>
-                                <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">
-                                    18-02-2024</td>
-                                <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200"><span
-                                        class="px-3 py-1 text-white bg-orange-500 rounded shadow">Pending</span></td>
-                                <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200"><span
-                                        class="px-3 py-1 text-white bg-green-500 rounded shadow">Paid</span></td>
-                                <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">
-                                    12,000.00</td>
-                                <td class="px-6 py-4 text-sm font-medium whitespace-nowrap text-end">
-                                    <a href="#"
-                                        class="px-4 py-2 text-white rounded-md bg-slate-600 hover:bg-slate-500">View
-                                        Details</a>
-                                </td>
-                            </tr>
+
+
+                            @foreach ($pedidos as $pedido)
+                                <tr wire:key='{{ $pedido->id }}'
+                                    class="odd:bg-white even:bg-gray-100 dark:odd:bg-slate-900 dark:even:bg-slate-800">
+                                    <td
+                                        class="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-gray-200">
+                                        {{ $pedido->id }}</td>
+                                    <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">
+                                        {{ $pedido->created_at }}</td>
+
+                                    <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">
+                                        @switch($pedido->estado)
+                                            @case('Nuevo')
+                                                <span
+                                                    class="px-3 py-1 text-white bg-indigo-500 rounded shadow">{{ $pedido->estado }}</span>
+                                            @break
+
+                                            @case('Procesando')
+                                                <span
+                                                    class="px-3 py-1 text-white bg-yellow-500 rounded shadow">{{ $pedido->estado }}</span>
+                                            @break
+
+                                            @case('Enviado')
+                                                <span
+                                                    class="px-3 py-1 text-white bg-purple-500 rounded shadow">{{ $pedido->estado }}</span>
+                                            @break
+
+                                            @case('Entregado')
+                                                <span
+                                                    class="px-3 py-1 text-white bg-green-500 rounded shadow">{{ $pedido->estado }}</span>
+                                            @break
+
+                                            @case('Cancelado')
+                                                <span
+                                                    class="px-3 py-1 text-white bg-red-500 rounded shadow">{{ $pedido->estado }}</span>
+                                            @break
+
+                                            @default
+                                                <span
+                                                    class="px-3 py-1 text-white bg-orange-500 rounded shadow">{{ $pedido->estado }}</span>
+                                        @endswitch
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">
+                                        @switch($pedido->estado_pago)
+                                            @case('Pendiente')
+                                                <span
+                                                    class="px-3 py-1 text-white bg-yellow-500 rounded shadow">{{ $pedido->estado_pago }}</span>
+                                            @break
+
+                                            @case('Pagado')
+                                                <span
+                                                    class="px-3 py-1 text-white bg-green-500 rounded shadow">{{ $pedido->estado_pago }}</span>
+                                            @break
+
+                                            @case('Fallido')
+                                                <span
+                                                    class="px-3 py-1 text-white bg-red-500 rounded shadow">{{ $pedido->estado_pago }}</span>
+                                            @break
+
+                                            @default
+                                                <span
+                                                    class="px-3 py-1 text-white bg-gray-500 rounded shadow">{{ $pedido->estado_pago }}</span>
+                                        @endswitch
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">
+                                        S/. {{ number_format($pedido->total, 2) }}</td>
+                                    <td class="px-6 py-4 text-sm font-medium whitespace-nowrap text-end">
+                                        <a href="#"
+                                            class="px-4 py-2 text-white rounded-md bg-slate-600 hover:bg-slate-500">Ver
+                                            detalles</a>
+                                    </td>
+                                </tr>
+                            @endforeach
 
 
 
@@ -51,6 +107,8 @@
                     </table>
                 </div>
             </div>
+
+            {{ $pedidos->links() }}
         </div>
     </div>
 </div>
