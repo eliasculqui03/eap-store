@@ -183,6 +183,9 @@ class PedidoResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('Cliente')
                     ->numeric()
