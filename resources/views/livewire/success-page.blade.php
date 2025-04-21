@@ -109,7 +109,7 @@
                         class="w-full px-4 py-2 text-center text-blue-500 border border-blue-500 rounded-md md:w-auto hover:text-white hover:bg-blue-600 dark:border-gray-700 dark:hover:bg-gray-700 dark:text-gray-300">
                         Volver a comprar
                     </a>
-                    <a href="{{ route('orders') }}"
+                    <a href="{{ route('orders', $pedido->id) }}"
                         class="w-full px-4 py-2 text-center bg-blue-500 rounded-md text-gray-50 md:w-auto dark:text-gray-300 hover:bg-blue-600 dark:hover:bg-gray-700 dark:bg-gray-800">
                         Ver mis pedidos
                     </a>

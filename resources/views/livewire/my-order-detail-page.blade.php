@@ -21,11 +21,11 @@
                 <div class="grow">
                     <div class="flex items-center gap-x-2">
                         <p class="text-xs tracking-wide text-gray-500 uppercase">
-                            Customer
+                            Cliente
                         </p>
                     </div>
                     <div class="flex items-center mt-1 gap-x-2">
-                        <div>Jace Grimes</div>
+                        <div>{{ $direccion->nombre . ' ' . $direccion->apellidos }}</div>
                     </div>
                 </div>
             </div>
@@ -51,12 +51,12 @@
                 <div class="grow">
                     <div class="flex items-center gap-x-2">
                         <p class="text-xs tracking-wide text-gray-500 uppercase">
-                            Order Date
+                            Fecha del pedido
                         </p>
                     </div>
                     <div class="flex items-center mt-1 gap-x-2">
                         <h3 class="text-xl font-medium text-gray-800 dark:text-gray-200">
-                            17-02-2024
+                            {{ $pedido->created_at->format('d-m-Y') }}
                         </h3>
                     </div>
                 </div>
@@ -81,11 +81,34 @@
                 <div class="grow">
                     <div class="flex items-center gap-x-2">
                         <p class="text-xs tracking-wide text-gray-500 uppercase">
-                            Order Status
+                            Estado del pedido
                         </p>
                     </div>
                     <div class="flex items-center mt-1 gap-x-2">
-                        <span class="px-3 py-1 text-white bg-yellow-500 rounded shadow">Processing</span>
+                        @switch($pedido->estado)
+                            @case('Nuevo')
+                                <span class="px-3 py-1 text-white bg-blue-500 rounded shadow">{{ $pedido->estado }}</span>
+                            @break
+
+                            @case('Procesando')
+                                <span class="px-3 py-1 text-white bg-yellow-500 rounded shadow">{{ $pedido->estado }}</span>
+                            @break
+
+                            @case('Enviado')
+                                <span class="px-3 py-1 text-white bg-purple-500 rounded shadow">{{ $pedido->estado }}</span>
+                            @break
+
+                            @case('Entregado')
+                                <span class="px-3 py-1 text-white bg-green-500 rounded shadow">{{ $pedido->estado }}</span>
+                            @break
+
+                            @case('Cancelado')
+                                <span class="px-3 py-1 text-white bg-red-500 rounded shadow">{{ $pedido->estado }}</span>
+                            @break
+
+                            @default
+                                <span class="px-3 py-1 text-white bg-orange-500 rounded shadow">{{ $pedido->estado }}</span>
+                        @endswitch
                     </div>
                 </div>
             </div>
@@ -111,11 +134,27 @@
                 <div class="grow">
                     <div class="flex items-center gap-x-2">
                         <p class="text-xs tracking-wide text-gray-500 uppercase">
-                            Payment Status
+                            Estado de pago
                         </p>
                     </div>
                     <div class="flex items-center mt-1 gap-x-2">
-                        <span class="px-3 py-1 text-white bg-green-500 rounded shadow">Paid</span>
+                        @switch($pedido->estado_pago)
+                            @case('Pendiente')
+                                <span
+                                    class="px-3 py-1 text-white bg-yellow-500 rounded shadow">{{ $pedido->estado_pago }}</span>
+                            @break
+
+                            @case('Pagado')
+                                <span class="px-3 py-1 text-white bg-green-500 rounded shadow">{{ $pedido->estado_pago }}</span>
+                            @break
+
+                            @case('Fallido')
+                                <span class="px-3 py-1 text-white bg-red-500 rounded shadow">{{ $pedido->estado_pago }}</span>
+                            @break
+
+                            @default
+                                <span class="px-3 py-1 text-white bg-gray-500 rounded shadow">{{ $pedido->estado_pago }}</span>
+                        @endswitch
                     </div>
                 </div>
             </div>
@@ -124,93 +163,113 @@
     </div>
     <!-- End Grid -->
 
+
     <div class="flex flex-col gap-4 mt-4 md:flex-row">
-        <div class="md:w-3/4">
-            <div class="p-6 mb-4 overflow-x-auto bg-white rounded-lg shadow-md">
-                <table class="w-full">
+        <div class="space-y-4 md:w-3/4">
+            <!-- Product Table Card -->
+            <div class="p-4 overflow-x-auto bg-white rounded-lg shadow-md md:p-6">
+                <!-- Tabla para pantallas medianas y grandes -->
+                <table class="hidden w-full md:table">
                     <thead>
-                        <tr>
-                            <th class="font-semibold text-left">Product</th>
-                            <th class="font-semibold text-left">Price</th>
-                            <th class="font-semibold text-left">Quantity</th>
-                            <th class="font-semibold text-left">Total</th>
+                        <tr class="border-b">
+                            <th class="py-2 font-semibold text-left text-slate-700">Producto</th>
+                            <th class="py-2 font-semibold text-left text-slate-700">Precio</th>
+                            <th class="py-2 font-semibold text-left text-slate-700">Cantidad</th>
+                            <th class="py-2 font-semibold text-left text-slate-700">Total</th>
                         </tr>
                     </thead>
                     <tbody>
-
-                        <!--[if BLOCK]><![endif]-->
-                        <tr wire:key="53">
-                            <td class="py-4">
-                                <div class="flex items-center">
-                                    <img class="w-16 h-16 mr-4"
-                                        src="http://localhost:8000/storage/products/01HND3J5XS7ZC5J84BK5YDM6Z2.jpg"
-                                        alt="Product image">
-                                    <span class="font-semibold">Samsung Galaxy Watch6</span>
-                                </div>
-                            </td>
-                            <td class="py-4">₹29,999.00</td>
-                            <td class="py-4">
-                                <span class="w-8 text-center">1</span>
-                            </td>
-                            <td class="py-4">₹29,999.00</td>
-                        </tr>
-                        <tr wire:key="54">
-                            <td class="py-4">
-                                <div class="flex items-center">
-                                    <img class="w-16 h-16 mr-4"
-                                        src="http://localhost:8000/storage/products/01HND30J0P7C6MWQ1XQK7YDQKA.jpg"
-                                        alt="Product image">
-                                    <span class="font-semibold">Samsung Galaxy Book3</span>
-                                </div>
-                            </td>
-                            <td class="py-4">₹75,000.00</td>
-                            <td class="py-4">
-                                <span class="w-8 text-center">5</span>
-                            </td>
-                            <td class="py-4">₹375,000.00</td>
-                        </tr>
-                        <!--[if ENDBLOCK]><![endif]-->
-
+                        @foreach ($pedido_items as $item)
+                            <tr class="border-b last:border-b-0">
+                                <td class="py-4">
+                                    <div class="flex items-center">
+                                        <img class="object-cover w-16 h-16 mr-4 rounded"
+                                            src="{{ Storage::url($item->producto->images[0]) }}"
+                                            alt="{{ $item->producto->nombre }}">
+                                        <span class="font-semibold text-slate-800">{{ $item->producto->nombre }}</span>
+                                    </div>
+                                </td>
+                                <td class="py-4 text-slate-600">S/. {{ number_format($item->producto->precio, 2) }}
+                                </td>
+                                <td class="py-4 text-slate-600">
+                                    <span class="block w-8 text-center">{{ $item->cantidad }}</span>
+                                </td>
+                                <td class="py-4 font-semibold text-slate-800">S/.
+                                    {{ number_format($item->subtotal, 2) }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
-            </div>
 
-            <div class="p-6 mb-4 overflow-x-auto bg-white rounded-lg shadow-md">
-                <h1 class="mb-3 font-bold font-3xl text-slate-500">Shipping Address</h1>
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p>42227 Zoila Glens, Oshkosh, Michigan, 55928</p>
-                    </div>
-                    <div>
-                        <p class="font-semibold">Phone:</p>
-                        <p>023-509-0009</p>
-                    </div>
+                <!-- Vista de tarjetas para dispositivos móviles -->
+                <div class="space-y-4 md:hidden">
+                    @foreach ($pedido_items as $item)
+                        <div class="p-4 border rounded-lg shadow-sm">
+                            <div class="flex items-center mb-3">
+                                <img class="object-cover w-16 h-16 mr-3 rounded"
+                                    src="{{ Storage::url($item->producto->images[0]) }}"
+                                    alt="{{ $item->producto->nombre }}">
+                                <span class="font-semibold text-slate-800">{{ $item->producto->nombre }}</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 text-sm">
+                                <div class="text-slate-500">Precio:</div>
+                                <div class="font-medium text-slate-700">S/.
+                                    {{ number_format($item->producto->precio, 2) }}</div>
+
+                                <div class="text-slate-500">Cantidad:</div>
+                                <div class="font-medium text-slate-700">{{ $item->cantidad }}</div>
+
+                                <div class="text-slate-500">Total:</div>
+                                <div class="font-semibold text-slate-800">S/. {{ number_format($item->subtotal, 2) }}
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
 
+            <!-- Shipping Address Card -->
+            <div class="p-6 bg-white rounded-lg shadow-md">
+                <h1 class="mb-4 text-xl font-bold text-slate-700">Dirección de envio</h1>
+                <div class="flex flex-col justify-between space-y-4 sm:flex-row sm:space-y-0">
+                    <div class="flex-grow pr-4">
+                        <p class="text-slate-600">
+                            {{ $direccion->departamento . ', ' . $direccion->provincia . ', ' . $direccion->distrito . ', ' . $direccion->ciudad . ', ' . $direccion->direccion_calle }}
+                        </p>
+                    </div>
+                    <div class="sm:text-right">
+                        <p class="font-semibold text-slate-700">Telefono:</p>
+                        <p class="text-slate-600">{{ $direccion->telefono }}</p>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <!-- Order Summary Card -->
         <div class="md:w-1/4">
             <div class="p-6 bg-white rounded-lg shadow-md">
-                <h2 class="mb-4 text-lg font-semibold">Summary</h2>
-                <div class="flex justify-between mb-2">
-                    <span>Subtotal</span>
-                    <span>₹404,999.00</span>
+                <h2 class="mb-4 text-lg font-semibold text-slate-700">Resumen</h2>
+                <div class="space-y-2">
+                    <div class="flex justify-between">
+                        <span class="text-slate-600">Subtotal</span>
+                        <span class="text-slate-800">S/ {{ number_format($pedido->total, 2) }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-600">IGV (18%)</span>
+                        <span class="text-slate-800">S/. 0.00</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-600">Envío</span>
+                        <span class="text-slate-800">S/. 0.00</span>
+                    </div>
+                    <hr class="my-2 border-t border-slate-200">
+                    <div class="flex justify-between">
+                        <span class="font-bold text-slate-800">Total General</span>
+                        <span class="font-bold text-slate-800">S/ {{ number_format($pedido->total, 2) }}</span>
+                    </div>
                 </div>
-                <div class="flex justify-between mb-2">
-                    <span>Taxes</span>
-                    <span>₹0.00</span>
-                </div>
-                <div class="flex justify-between mb-2">
-                    <span>Shipping</span>
-                    <span>₹0.00</span>
-                </div>
-                <hr class="my-2">
-                <div class="flex justify-between mb-2">
-                    <span class="font-semibold">Grand Total</span>
-                    <span class="font-semibold">₹404,999.00</span>
-                </div>
-
             </div>
         </div>
     </div>
+    ```
 </div>

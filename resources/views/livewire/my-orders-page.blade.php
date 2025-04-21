@@ -93,7 +93,7 @@
                                     <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">
                                         S/. {{ number_format($pedido->total, 2) }}</td>
                                     <td class="px-6 py-4 text-sm font-medium whitespace-nowrap text-end">
-                                        <a href="#"
+                                        <a href="{{ route('orders.show', $pedido->id) }}"
                                             class="px-4 py-2 text-white rounded-md bg-slate-600 hover:bg-slate-500">Ver
                                             detalles</a>
                                     </td>
